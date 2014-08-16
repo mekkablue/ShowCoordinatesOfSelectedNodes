@@ -94,39 +94,36 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 		"""
 		try:
 			currentSelection = Layer.selection()
+			offset = 5.0 + self.getHandleSize() / self.getScale()
 			if currentSelection:
 				for thisItem in currentSelection:
 					if type(thisItem) is GSNode:
 						nodeType = thisItem.type
 						if nodeType == 1 or nodeType == 35:
-							self.drawCoordinateBadge( thisItem.x, thisItem.y )
-
+							xCoordinate = thisItem.x
+							yCoordinate = thisItem.y
+							self.drawTextAtPoint(
+								"%.1f, %.1f" % ( xCoordinate, yCoordinate ),
+								NSPoint( xCoordinate + offset, yCoordinate )
+							)
 		except Exception as e:
 			self.logToConsole( "drawForegroundForLayer_: %s" % str(e) )
-	
-	def drawCoordinateBadge( self, xCoordinate, yCoordinate ):
+
+	def drawTextAtPoint( self, text, textPosition, fontSize=9.0, fontColor=NSColor.brownColor() ):
 		"""
-				NSDictionary * attributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont labelFontOfSize:24.0f/Scale], NSFontAttributeName,
-											Color, NSForegroundColorAttributeName, nil];
-				NSAttributedString	* AttributedString = [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", i] attributes:attributes] autorelease];
-				NSPoint DrawPoint = GSAddPoints(Node.position, NSMakePoint(13.0f/Scale, 13.0f/Scale));
-				[editViewController.graphicView drawText:AttributedString atPoint:DrawPoint alignment:GSCenterCenter ];
+		Use self.drawTextAtPoint( "blabla", myNSPoint ) to display left-aligned text at myNSPoint.
 		"""
 		try:
 			glyphEditView = self.controller.graphicView()
 			currentZoom = self.getScale()
-			fontColor = NSColor.brownColor()
 			fontAttributes = { 
-				NSFontAttributeName: NSFont.labelFontOfSize_( 9.0/currentZoom ),
-				NSForegroundColorAttributeName: fontColor
-			}
-			coordinateText = "%.1f, %.1f" % ( xCoordinate, yCoordinate )
-			badgeText = NSAttributedString.alloc().initWithString_attributes_( coordinateText, fontAttributes )
-			badgePosition = NSPoint( xCoordinate + 10.0/currentZoom, yCoordinate )
-			glyphEditView.drawText_atPoint_alignment_( badgeText, badgePosition, 3 )
+				NSFontAttributeName: NSFont.labelFontOfSize_( fontSize/currentZoom ),
+				NSForegroundColorAttributeName: fontColor }
+			displayText = NSAttributedString.alloc().initWithString_attributes_( text, fontAttributes )
+			textAlignment = 3 # top left: 6, top center: 7, top right: 8, center left: 3, center center: 4, center right: 5, bottom left: 0, bottom center: 1, bottom right: 2
+			glyphEditView.drawText_atPoint_alignment_( displayText, textPosition, textAlignment )
 		except Exception as e:
-			self.logToConsole( "drawCoordinateBadge: %s" % str(e) )
-			
+			self.logToConsole( "drawTextAtPoint: %s" % str(e) )
 	
 	def drawBackgroundForLayer_( self, Layer ):
 		"""
@@ -151,6 +148,24 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 		Return False to disable the black outline. Otherwise remove the method.
 		"""
 		return False
+	
+	def getHandleSize( self ):
+		"""
+		Returns the current handle size as set in user preferences.
+		Use: self.getHandleSize() / self.getScale()
+		to determine the right size for drawing on the canvas.
+		"""
+		try:
+			Selected = NSUserDefaults.standardUserDefaults().integerForKey_( "GSHandleSize" )
+			if Selected == 0:
+				return 5.0
+			elif Selected == 2:
+				return 10.0
+			else:
+				return 7.0 # Regular
+		except Exception as e:
+			self.logToConsole( "getHandleSize: HandleSize defaulting to 7.0. %s" % str(e) )
+			return 7.0
 	
 	def getScale( self ):
 		"""
@@ -178,5 +193,5 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 		Use self.logToConsole( "bla bla" ) for debugging.
 		"""
 		myLog = "Show %s plugin:\n%s" % ( self.title(), message )
-		print myLog
+		# print myLog
 		NSLog( myLog )
