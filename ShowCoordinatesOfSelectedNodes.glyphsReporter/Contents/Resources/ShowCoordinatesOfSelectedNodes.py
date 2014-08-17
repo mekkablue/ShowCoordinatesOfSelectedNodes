@@ -4,7 +4,7 @@
 import objc
 from Foundation import *
 from AppKit import *
-import sys, os, re
+import sys, os, re, math
 
 MainBundle = NSBundle.mainBundle()
 path = MainBundle.bundlePath() + "/Contents/Scripts"
@@ -14,6 +14,27 @@ if not path in sys.path:
 import GlyphsApp
 
 GlyphsReporterProtocol = objc.protocolNamed( "GlyphsReporter" )
+
+def addPoints( node1, node2 ):
+	return NSPoint( node1.x+node2.x, node1.y+node2.y )
+	
+def distance( node1, node2 ):
+	return math.hypot( node1.x - node2.x, node1.y - node2.y )
+
+def angle( firstPoint, secondPoint ):
+	xDiff = firstPoint.x - secondPoint.x
+	yDiff = firstPoint.y - secondPoint.y
+	if xDiff:
+		tangens = yDiff / xDiff
+		angle = math.atan( tangens ) * 180.0 / math.pi
+		if xDiff > 0.0:
+			angle -= 180.0
+	else:
+		if yDiff >= 0.0:
+			angle = -90.0
+		else:
+			angle = 90.0
+	return angle
 
 class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 	
@@ -95,7 +116,9 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 		try:
 			currentSelection = Layer.selection()
 			offset = 5.0 + self.getHandleSize() / self.getScale()
+			
 			if currentSelection:
+				# coordinates of on-curves
 				for thisItem in currentSelection:
 					if type(thisItem) is GSNode:
 						nodeType = thisItem.type
@@ -106,10 +129,30 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 								"%.1f, %.1f" % ( xCoordinate, yCoordinate ),
 								NSPoint( xCoordinate + offset, yCoordinate )
 							)
+				
+				# length and angles of adjacent nodes
+				for thisPath in Layer.paths:
+					theseNodes = thisPath.nodes
+					thisNumberOfNodes = len( theseNodes )
+					for i in range( thisNumberOfNodes ):
+						previousNode = theseNodes[ (i-1) % thisNumberOfNodes ]
+						currentNode = theseNodes[ i ]
+						if (previousNode in currentSelection or currentNode in currentSelection) and not (previousNode.type == 65 and currentNode.type == 65):
+							previousPoint = previousNode.position
+							currentPoint = currentNode.position
+							currentAngle = angle( previousPoint, currentPoint )
+							currentDistance = distance( previousPoint, currentPoint )
+							pointSum = addPoints( previousPoint, currentPoint )
+							pointInTheMiddle = NSPoint( pointSum.x * 0.5 + offset, pointSum.y * 0.5 )
+							self.drawTextAtPoint(
+								u"%.1f @ %.1f°" % ( currentDistance, currentAngle ),
+								pointInTheMiddle,
+								fontColor=NSColor.greenColor()
+							)
 		except Exception as e:
 			self.logToConsole( "drawForegroundForLayer_: %s" % str(e) )
 
-	def drawTextAtPoint( self, text, textPosition, fontSize=9.0, fontColor=NSColor.brownColor() ):
+	def drawTextAtPoint( self, text, textPosition, fontSize=10.0, fontColor=NSColor.brownColor() ):
 		"""
 		Use self.drawTextAtPoint( "blabla", myNSPoint ) to display left-aligned text at myNSPoint.
 		"""

@@ -1,7 +1,8 @@
 # ShowCoordinatesOfSelectedNodes.glyphsReporter
 
 This is a plugin for the [Glyphs font editor](http://glyphsapp.com/) by Georg Seifert.
-It displays coordinates for select on-curve nodes.
+It displays coordinates for selected on-curve nodes, as well as length and angle of the surrounding handles and line segments.
+
 After installation, it will add the menu item *View > Show Coordinates of Selected Nodes*.
 You can set a keyboard shortcut in System Preferences.
 
