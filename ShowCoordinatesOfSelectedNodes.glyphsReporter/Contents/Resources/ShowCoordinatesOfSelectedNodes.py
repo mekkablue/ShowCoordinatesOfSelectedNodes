@@ -28,7 +28,10 @@ def angle( firstPoint, secondPoint ):
 		tangens = yDiff / xDiff
 		angle = math.atan( tangens ) * 180.0 / math.pi
 		if xDiff > 0.0:
-			angle -= 180.0
+			if yDiff > 0.0:
+				angle -= 180.0
+			elif yDiff <= 0.0:
+				angle += 180.0
 	else:
 		if yDiff >= 0.0:
 			angle = -90.0
