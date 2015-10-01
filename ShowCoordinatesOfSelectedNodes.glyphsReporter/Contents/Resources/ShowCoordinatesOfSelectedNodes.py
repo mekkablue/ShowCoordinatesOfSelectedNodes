@@ -117,7 +117,13 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 		https://developer.apple.com/library/mac/documentation/cocoa/reference/applicationkit/classes/NSColor_Class/Reference/Reference.html
 		"""
 		try:
-			currentSelection = Layer.selection()
+			try:
+				# until v2.1:
+				currentSelection = Layer.selection()
+			except:
+				# since v2.2:
+				currentSelection = Layer.selection
+			
 			offset = 5.0 + self.getHandleSize() / self.getScale()
 			
 			if currentSelection:
