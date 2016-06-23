@@ -12,6 +12,7 @@ if not path in sys.path:
 	sys.path.append( path )
 
 import GlyphsApp
+from GlyphsApp import LINE, CURVE, OFFCURVE
 
 GlyphsReporterProtocol = objc.protocolNamed( "GlyphsReporter" )
 
@@ -131,12 +132,13 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 				for thisItem in currentSelection:
 					if type(thisItem) is GSNode:
 						nodeType = thisItem.type
-						if nodeType == 1 or nodeType == 35:
+						if nodeType == LINE or nodeType == CURVE:
 							xCoordinate = thisItem.x
 							yCoordinate = thisItem.y
 							self.drawTextAtPoint(
 								"%.1f, %.1f" % ( xCoordinate, yCoordinate ),
-								NSPoint( xCoordinate + offset, yCoordinate )
+								NSPoint( xCoordinate + offset, yCoordinate ),
+								fontColor=NSColor.brownColor()
 							)
 				
 				# length and angles of adjacent nodes
@@ -146,7 +148,7 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 					for i in range( thisNumberOfNodes ):
 						previousNode = theseNodes[ (i-1) % thisNumberOfNodes ]
 						currentNode = theseNodes[ i ]
-						if (previousNode in currentSelection or currentNode in currentSelection) and not (previousNode.type == 65 and currentNode.type == 65):
+						if (previousNode in currentSelection or currentNode in currentSelection) and not (previousNode.type == OFFCURVE and currentNode.type == OFFCURVE):
 							previousPoint = previousNode.position
 							currentPoint = currentNode.position
 							currentAngle = angle( previousPoint, currentPoint )
@@ -156,7 +158,7 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 							self.drawTextAtPoint(
 								u"%.1f @ %.1f°" % ( currentDistance, currentAngle ),
 								pointInTheMiddle,
-								fontColor=NSColor.greenColor()
+								fontColor=NSColor.colorWithRed_green_blue_alpha_( 0.1, 0.7, 0.2, 1.0 )
 							)
 		except Exception as e:
 			self.logToConsole( "drawForegroundForLayer_: %s" % str(e) )
