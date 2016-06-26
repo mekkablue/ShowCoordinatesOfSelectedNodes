@@ -136,7 +136,7 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 							xCoordinate = thisItem.x
 							yCoordinate = thisItem.y
 							self.drawTextAtPoint(
-								"%.1f, %.1f" % ( xCoordinate, yCoordinate ),
+								("%.1f, %.1f" % ( xCoordinate, yCoordinate )).replace(".0",""),
 								NSPoint( xCoordinate + offset, yCoordinate ),
 								fontColor=NSColor.brownColor()
 							)
@@ -156,7 +156,7 @@ class ShowCoordinatesOfSelectedNodes ( NSObject, GlyphsReporterProtocol ):
 							pointSum = addPoints( previousPoint, currentPoint )
 							pointInTheMiddle = NSPoint( pointSum.x * 0.5 + offset, pointSum.y * 0.5 )
 							self.drawTextAtPoint(
-								u"%.1f @ %.1f°" % ( currentDistance, currentAngle ),
+								(u"%.1f @%.1f°" % ( currentDistance, currentAngle )).replace(".0",""),
 								pointInTheMiddle,
 								fontColor=NSColor.colorWithRed_green_blue_alpha_( 0.1, 0.7, 0.2, 1.0 )
 							)
