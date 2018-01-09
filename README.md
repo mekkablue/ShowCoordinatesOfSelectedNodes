@@ -1,18 +1,19 @@
 # ShowCoordinatesOfSelectedNodes.glyphsReporter
 
-This is a plugin for the [Glyphs font editor](http://glyphsapp.com/) by Georg Seifert.
+This is a plugin for the [Glyphs font editor](http://glyphsapp.com/).
+
 It displays coordinates for selected on-curve nodes, as well as length and angle of the surrounding handles and line segments.
+
+![Coordinates are displayed for selected nodes.](ShowCoordinatesOfSelectedNodes.png "Show Coordinates Screenshot")
 
 After installation, it will add the menu item *View > Show Coordinates of Selected Nodes*.
 You can set a keyboard shortcut in System Preferences.
 
-![Coordinates are displayed for selected nodes.](ShowCoordinatesOfSelectedNodes.png "Show Coordinates Screenshot")
 
 ### Installation
 
-1. Download the complete ZIP file and unpack it, or clone the repository.
-2. Double click the .glyphsReporter file. Confirm the dialog that appears in Glyphs.
-3. Restart Glyphs
+1. In *Window > Plugin Manager,* click on the *Install* button next to *Show Coordinates of Selected Nodes.*
+2. Restart Glyphs.
 
 ### Usage Instructions
 
@@ -21,12 +22,12 @@ You can set a keyboard shortcut in System Preferences.
 
 ### Requirements
 
-The plugin needs Glyphs 1.4.3 or higher, running on OS X 10.7 or later. I can only test it in current OS versions, and I assume it will not work in versions of Mac OS X older than 10.7.
+The plugin needs Glyphs 2.4 or higher.
 
 ### License
 
-Copyright 2014 Rainer Erich Scheichelbauer (@mekkablue).
-Based on sample code by Georg Seifert (@schriftgestalt).
+Copyright 2014-2018 Rainer Erich Scheichelbauer (@mekkablue).
+Based on sample code by Georg Seifert (@schriftgestalt) and Jan Gerner (@yanone).
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
