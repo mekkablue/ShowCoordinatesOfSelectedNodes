@@ -32,6 +32,7 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 			'en': u'Coordinates of Selected Nodes',
 			'de': u'Koordinaten ausgewählter Punkte',
 			'nl': u'coördinaten van geselecteerde punten',
+			'fr': u'coordonnées des nœuds sélectionnés',
 		})
 		
 	def foreground(self, Layer):
