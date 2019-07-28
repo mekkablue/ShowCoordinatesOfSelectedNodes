@@ -38,7 +38,10 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 		
 	def foreground(self, Layer):
 		currentSelection = Layer.selection
-		if len(currentSelection) < 21:
+		if len(currentSelection) < 13:
+			green = NSColor.colorWithRed_green_blue_alpha_( 0.1, 0.7, 0.2, 1.0 )
+			brown = NSColor.brownColor()
+			
 			offset = 5.0 + self.getHandleSize() / self.getScale()
 		
 			if currentSelection:
@@ -52,7 +55,7 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 							self.drawTextAtPoint(
 								("%.1f, %.1f" % ( xCoordinate, yCoordinate )).replace(".0",""),
 								NSPoint( xCoordinate + offset, yCoordinate ),
-								fontColor=NSColor.brownColor()
+								fontColor=brown
 							)
 			
 				# length and angles of adjacent nodes
@@ -72,5 +75,5 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 							self.drawTextAtPoint(
 								(u"%.1f @%.1f°" % ( currentDistance, currentAngle )).replace(".0",""),
 								pointInTheMiddle,
-								fontColor=NSColor.colorWithRed_green_blue_alpha_( 0.1, 0.7, 0.2, 1.0 )
+								fontColor=green
 							)
