@@ -37,8 +37,8 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 		})
 		
 	def foreground(self, Layer):
-		currentSelection = Layer.selection
 		if len(currentSelection) < 13:
+		currentSelection = set(Layer.selection)
 			green = NSColor.colorWithRed_green_blue_alpha_( 0.1, 0.7, 0.2, 1.0 )
 			brown = NSColor.brownColor()
 			
