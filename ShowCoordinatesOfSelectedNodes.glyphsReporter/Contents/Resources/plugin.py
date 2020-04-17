@@ -32,11 +32,12 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 	@objc.python_method
 	def settings(self):
 		self.menuName = Glyphs.localize({
-			'en': u'Coordinates of Selected Nodes',
-			'de': u'Koordinaten ausgewählter Punkte',
-			'nl': u'coördinaten van geselecteerde punten',
-			'fr': u'les coordonnées des nœuds sélectionnés',
-			'es': u'las coordenadas de nodos seleccionados',
+			'en': 'Coordinates of Selected Nodes',
+			'de': 'Koordinaten ausgewählter Punkte',
+			'nl': 'coördinaten van geselecteerde punten',
+			'fr': 'les coordonnées des nœuds sélectionnés',
+			'es': 'las coordenadas de nodos seleccionados',
+			'pt': 'coordenadas dos nós selecionados',
 		})
 	
 	@objc.python_method
