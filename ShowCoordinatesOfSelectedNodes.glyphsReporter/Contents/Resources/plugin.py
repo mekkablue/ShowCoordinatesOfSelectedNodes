@@ -1,4 +1,5 @@
 # encoding: utf-8
+from __future__ import division, print_function, unicode_literals
 
 ###########################################################################################################
 #
@@ -15,6 +16,7 @@ from GlyphsApp import *
 from GlyphsApp.plugins import *
 from math import degrees, atan2
 
+@objc.python_method
 def angle( firstPoint, secondPoint ):
 	"""
 	Returns the angle (in degrees) of the straight line between firstPoint and secondPoint,
@@ -26,7 +28,8 @@ def angle( firstPoint, secondPoint ):
 	return degrees(atan2(yDiff,xDiff))
 
 class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
-
+	
+	@objc.python_method
 	def settings(self):
 		self.menuName = Glyphs.localize({
 			'en': u'Coordinates of Selected Nodes',
@@ -35,7 +38,8 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 			'fr': u'les coordonnées des nœuds sélectionnés',
 			'es': u'las coordenadas de nodos seleccionados',
 		})
-		
+	
+	@objc.python_method
 	def foreground(self, Layer):
 		currentSelection = set(Layer.selection)
 		if len(currentSelection) < 13:
@@ -77,3 +81,8 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 								pointInTheMiddle,
 								fontColor=green
 							)
+
+	@objc.python_method
+	def __file__(self):
+		"""Please leave this method unchanged"""
+		return __file__
