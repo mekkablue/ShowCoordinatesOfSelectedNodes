@@ -9,6 +9,21 @@ It displays coordinates for selected on-curve nodes, as well as length and angle
 After installation, it will add the menu item *View > Show Coordinates of Selected Nodes*.
 You can set a keyboard shortcut in System Preferences.
 
+### Options
+
+Run this line in the Macro Window to disable display of node info:
+
+    Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showNodes"] = False
+
+Run this line in the Macro Window to disable display of node info:
+
+    Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showHandles"] = False
+
+To reset the prefs, run any or both of these lines in Macro Window:
+
+    del Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showNodes"]
+    del Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showHandles"]
+
 
 ### Installation
 
