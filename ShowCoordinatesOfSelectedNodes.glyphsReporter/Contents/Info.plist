@@ -13,15 +13,15 @@
 	<key>CFBundleName</key>
 	<string>ShowCoordinatesOfSelectedNodes</string>
 	<key>CFBundleVersion</key>
-	<string>14</string>
+	<string>15</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.1</string>
+	<string>2.0.2</string>
 	<key>UpdateFeedURL</key>
 	<string>https://raw.githubusercontent.com/mekkablue/ShowCoordinatesOfSelectedNodes/master/ShowCoordinatesOfSelectedNodes.glyphsReporter/Contents/Info.plist</string>
 	<key>productPageURL</key>
 	<string>https://github.com/mekkablue/ShowCoordinatesOfSelectedNodes</string>
 	<key>productReleaseNotes</key>
-	<string>Run `Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showHandles"]=False` in MacroWindow to disable handle info, same with ...showNodes for on-curve nodes.</string>
+	<string>Updated plugin binary.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright, Rainer Erich Scheichelbauer, 2014-2018</string>
 	<key>NSPrincipalClass</key>
