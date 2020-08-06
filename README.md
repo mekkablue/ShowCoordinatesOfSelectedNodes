@@ -11,11 +11,11 @@ You can set a keyboard shortcut in System Preferences.
 
 ### Options
 
-Run this line in the Macro Window to disable display of node info:
+Run this line in the Macro Window to disable display of (on-curve) node info:
 
     Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showNodes"] = False
 
-Run this line in the Macro Window to disable display of node info:
+Run this line in the Macro Window to disable display of (off-curve) handle info:
 
     Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showHandles"] = False
 
