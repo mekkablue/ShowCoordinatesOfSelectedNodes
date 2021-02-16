@@ -16,6 +16,12 @@
 	<string>2.0.5</string>
 	<key>CFBundleVersion</key>
 	<string>18</string>
+	<key>UpdateFeedURL</key>
+	<string>https://raw.githubusercontent.com/mekkablue/ShowCoordinatesOfSelectedNodes/master/ShowCoordinatesOfSelectedNodes.glyphsReporter/Contents/Info.plist</</string>
+	<key>productPageURL</key>
+	<string>https://github.com/mekkablue/ShowCoordinatesOfSelectedNodes</string>
+	<key>productReleaseNotes</key>
+	<string>update binary files for Glyphs3</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright, Rainer Erich Scheichelbauer, 2014-2018</string>
 	<key>NSPrincipalClass</key>
@@ -24,11 +30,5 @@
 	<array>
 		<string>plugin.py</string>
 	</array>
-	<key>UpdateFeedURL</key>
-	<string>https://raw.githubusercontent.com/mekkablue/ShowCoordinatesOfSelectedNodes/master/ShowCoordinatesOfSelectedNodes.glyphsReporter/Contents/Info.plist</string>
-	<key>productPageURL</key>
-	<string>https://github.com/mekkablue/ShowCoordinatesOfSelectedNodes</string>
-	<key>productReleaseNotes</key>
-	<string>update binary files for Glyphs3</string>
 </dict>
 </plist>
