@@ -1,17 +1,6 @@
 # encoding: utf-8
 from __future__ import division, print_function, unicode_literals
-
-###########################################################################################################
-#
-#
-#	Reporter Plugin
-#
-#	Read the docs:
-#	https://github.com/schriftgestalt/GlyphsSDK/tree/master/Python%20Templates/Reporter
-#
-#
-###########################################################################################################
-
+import objc
 from GlyphsApp import *
 from GlyphsApp.plugins import *
 from math import degrees, atan2
