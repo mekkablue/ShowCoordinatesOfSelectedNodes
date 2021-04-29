@@ -5,17 +5,6 @@ from GlyphsApp import *
 from GlyphsApp.plugins import *
 from math import degrees, atan2
 
-@objc.python_method
-def angle( firstPoint, secondPoint ):
-	"""
-	Returns the angle (in degrees) of the straight line between firstPoint and secondPoint,
-	0 degrees being the second point to the right of first point.
-	firstPoint, secondPoint: must be NSPoint or GSNode
-	"""
-	xDiff = secondPoint.x - firstPoint.x
-	yDiff = secondPoint.y - firstPoint.y
-	return degrees(atan2(yDiff,xDiff))
-
 class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 	
 	@objc.python_method
@@ -32,11 +21,22 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 		Glyphs.registerDefault( "com.mekkablue.ShowCoordinatesOfSelectedNodes.showHandles", 1 )
 	
 	@objc.python_method
-	def foreground(self, Layer):
+	def angle( self, firstPoint, secondPoint ):
+		"""
+		Returns the angle (in degrees) of the straight line between firstPoint and secondPoint,
+		0 degrees being the second point to the right of first point.
+		firstPoint, secondPoint: must be NSPoint or GSNode
+		"""
+		xDiff = secondPoint.x - firstPoint.x
+		yDiff = secondPoint.y - firstPoint.y
+		return degrees(atan2(yDiff,xDiff))
+	
+	@objc.python_method
+	def foreground(self, layer):
 		showNodes = Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showNodes"]
 		showHandles = Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showHandles"]
 		
-		currentSelection = Layer.selection
+		currentSelection = layer.selection
 		if len(currentSelection) < 13:
 			green = NSColor.greenColor().colorWithAlphaComponent_(0.7)
 			brown = NSColor.brownColor().colorWithAlphaComponent_(0.7)
@@ -61,7 +61,7 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 			
 				# length and angles of adjacent nodes
 				if showHandles:
-					for thisPath in Layer.paths:
+					for thisPath in layer.paths:
 						theseNodes = thisPath.nodes
 						thisNumberOfNodes = len( theseNodes )
 						for i in range( thisNumberOfNodes ):
@@ -70,7 +70,7 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 							if (previousNode in currentSelection or currentNode in currentSelection) and not (previousNode.type == OFFCURVE and currentNode.type == OFFCURVE):
 								previousPoint = previousNode.position
 								currentPoint = currentNode.position
-								currentAngle = angle( previousPoint, currentPoint )
+								currentAngle = self.angle( previousPoint, currentPoint )
 								currentDistance = distance( previousPoint, currentPoint )
 								pointSum = addPoints( previousPoint, currentPoint )
 								pointInTheMiddle = NSPoint( pointSum.x * 0.5 + offset, pointSum.y * 0.5 )
