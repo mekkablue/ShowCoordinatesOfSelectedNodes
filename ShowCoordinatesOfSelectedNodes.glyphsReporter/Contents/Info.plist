@@ -17,7 +17,7 @@
 	<key>CFBundleVersion</key>
 	<string>18</string>
 	<key>UpdateFeedURL</key>
-	<string>https://raw.githubusercontent.com/mekkablue/ShowCoordinatesOfSelectedNodes/master/ShowCoordinatesOfSelectedNodes.glyphsReporter/Contents/Info.plist</</string>
+	<string>https://raw.githubusercontent.com/mekkablue/ShowCoordinatesOfSelectedNodes/master/ShowCoordinatesOfSelectedNodes.glyphsReporter/Contents/Info.plist</string>
 	<key>productPageURL</key>
 	<string>https://github.com/mekkablue/ShowCoordinatesOfSelectedNodes</string>
 	<key>productReleaseNotes</key>
