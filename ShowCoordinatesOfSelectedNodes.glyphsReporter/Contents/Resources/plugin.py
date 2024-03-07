@@ -38,8 +38,15 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 		
 		currentSelection = layer.selection
 		if len(currentSelection) < 13:
-			green = NSColor.greenColor().colorWithAlphaComponent_(0.7)
-			brown = NSColor.brownColor().colorWithAlphaComponent_(0.7)
+			alpha = 0.7
+			if Glyphs.versionNumber >= 3:
+				# GLYPHS 3
+				green = Glyphs.colorDefaults["GSColorNodeSmooth"].colorWithAlphaComponent_(alpha)
+				brown = Glyphs.colorDefaults["GSColorBackgroundStroke"].colorWithAlphaComponent_(alpha)
+			else:
+				# GLYPHS 2
+				green = NSColor.greenColor().colorWithAlphaComponent_(alpha)
+				brown = NSColor.brownColor().colorWithAlphaComponent_(alpha)
 			
 			offset = 5.0 + self.getHandleSize() / self.getScale()
 		
@@ -54,9 +61,10 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 								xCoordinate = thisItem.x
 								yCoordinate = thisItem.y
 								self.drawTextAtPoint(
-									("%.1f, %.1f" % ( xCoordinate, yCoordinate )).replace(".0",""),
+									f"{xCoordinate:.1f}, {yCoordinate:.1f} ".replace(".0,",",").replace(".0 ","").strip(),
 									NSPoint( xCoordinate + offset, yCoordinate ),
-									fontColor=brown
+									fontColor=brown,
+									fontSize=10+2*Glyphs.handleSize,
 								)
 			
 				# length and angles of adjacent nodes
@@ -75,9 +83,10 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 								pointSum = addPoints( previousPoint, currentPoint )
 								pointInTheMiddle = NSPoint( pointSum.x * 0.5 + offset, pointSum.y * 0.5 )
 								self.drawTextAtPoint(
-									(u"%.1f @%.1f°" % ( currentDistance, currentAngle )).replace(".0",""),
+									f"{currentDistance:.1f} @{currentAngle:.1f}°".replace(".0 "," ").replace(".0°","°"),
 									pointInTheMiddle,
-									fontColor=green
+									fontColor=green,
+									fontSize=10+2*Glyphs.handleSize,
 								)
 
 	@objc.python_method
