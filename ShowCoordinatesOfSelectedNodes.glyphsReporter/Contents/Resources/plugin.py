@@ -61,7 +61,7 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 								xCoordinate = thisItem.x
 								yCoordinate = thisItem.y
 								self.drawTextAtPoint(
-									f"{xCoordinate:.1f}, {yCoordinate:.1f} ".replace(".0,",",").replace(".0 ","").strip(),
+									("%.1f, %.1f" % (xCoordinate, yCoordinate)).replace(".0", ""),
 									NSPoint( xCoordinate + offset, yCoordinate ),
 									fontColor=brown,
 									fontSize=10+2*Glyphs.handleSize,
@@ -83,7 +83,7 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 								pointSum = addPoints( previousPoint, currentPoint )
 								pointInTheMiddle = NSPoint( pointSum.x * 0.5 + offset, pointSum.y * 0.5 )
 								self.drawTextAtPoint(
-									f"{currentDistance:.1f} @{currentAngle:.1f}°".replace(".0 "," ").replace(".0°","°"),
+									("%.1f @%.1f°" % (currentDistance, currentAngle)).replace(".0", ""),
 									pointInTheMiddle,
 									fontColor=green,
 									fontSize=10+2*Glyphs.handleSize,
