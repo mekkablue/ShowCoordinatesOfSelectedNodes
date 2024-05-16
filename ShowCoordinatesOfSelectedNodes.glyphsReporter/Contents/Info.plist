@@ -15,7 +15,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>2.1</string>
 	<key>CFBundleVersion</key>
-	<string>20</string>
+	<string>21</string>
 	<key>UpdateFeedURL</key>
 	<string>https://raw.githubusercontent.com/mekkablue/ShowCoordinatesOfSelectedNodes/master/ShowCoordinatesOfSelectedNodes.glyphsReporter/Contents/Info.plist</string>
 	<key>productPageURL</key>
@@ -23,7 +23,7 @@
 	<key>productReleaseNotes</key>
 	<string>Use colors for smooth node and background stroke, adapt font size to handle size.</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright, Rainer Erich Scheichelbauer, 2014-2018</string>
+	<string>Copyright, Rainer Erich Scheichelbauer, 2014-2024</string>
 	<key>NSPrincipalClass</key>
 	<string>ShowCoordinatesOfSelectedNodes</string>
 	<key>PyMainFileNames</key>
