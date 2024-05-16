@@ -35,61 +35,62 @@ class ShowCoordinatesOfSelectedNodes(ReporterPlugin):
 
 	@objc.python_method
 	def foreground(self, layer):
+
+		currentSelection = layer.selection
+		if not currentSelection or len(currentSelection) >= 13:
+			return
+
 		showNodes = Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showNodes"]
 		showHandles = Glyphs.defaults["com.mekkablue.ShowCoordinatesOfSelectedNodes.showHandles"]
 
-		currentSelection = layer.selection
-		if len(currentSelection) < 13:
-			alpha = 0.7
-			if Glyphs.versionNumber >= 3:
-				# GLYPHS 3
-				green = Glyphs.colorDefaults["GSColorNodeSmooth"].colorWithAlphaComponent_(alpha)
-				brown = Glyphs.colorDefaults["GSColorBackgroundStroke"].colorWithAlphaComponent_(alpha)
-			else:
-				# GLYPHS 2
-				green = NSColor.greenColor().colorWithAlphaComponent_(alpha)
-				brown = NSColor.brownColor().colorWithAlphaComponent_(alpha)
+		alpha = 0.7
+		if Glyphs.versionNumber >= 3:
+			# GLYPHS 3
+			green = Glyphs.colorDefaults["GSColorNodeSmooth"].colorWithAlphaComponent_(alpha)
+			brown = Glyphs.colorDefaults["GSColorBackgroundStroke"].colorWithAlphaComponent_(alpha)
+		else:
+			# GLYPHS 2
+			green = NSColor.greenColor().colorWithAlphaComponent_(alpha)
+			brown = NSColor.brownColor().colorWithAlphaComponent_(alpha)
 
-			offset = 5.0 + self.getHandleSize() / self.getScale()
+		offset = 5.0 + self.getHandleSize() / self.getScale()
 
-			if currentSelection:
+		# coordinates of on-curves
+		if showNodes:
+			for thisItem in currentSelection:
+				if type(thisItem) is GSNode:
+					nodeType = thisItem.type
+					if nodeType == LINE or nodeType == CURVE:
+						xCoordinate = thisItem.x
+						yCoordinate = thisItem.y
+						self.drawTextAtPoint(
+							("%.1f, %.1f" % (xCoordinate, yCoordinate)).replace(".0", ""),
+							NSPoint(xCoordinate + offset, yCoordinate),
+							fontColor=brown,
+							fontSize=10 + 2 * Glyphs.handleSize,
+						)
 
-				# coordinates of on-curves
-				if showNodes:
-					for thisItem in currentSelection:
-						if type(thisItem) is GSNode:
-							nodeType = thisItem.type
-							if nodeType == LINE or nodeType == CURVE:
-								xCoordinate = thisItem.x
-								yCoordinate = thisItem.y
-								self.drawTextAtPoint(
-									("%.1f, %.1f" % (xCoordinate, yCoordinate)).replace(".0", ""),
-									NSPoint(xCoordinate + offset, yCoordinate),
-									fontColor=brown,
-									fontSize=10 + 2 * Glyphs.handleSize,
-								)
-
-				# length and angles of adjacent nodes
-				if showHandles:
-					for thisPath in layer.paths:
-						theseNodes = thisPath.nodes
-						thisNumberOfNodes = len(theseNodes)
-						for i in range(thisNumberOfNodes):
-							previousNode = theseNodes[(i - 1) % thisNumberOfNodes]
-							currentNode = theseNodes[1]
-							if (previousNode in currentSelection or currentNode in currentSelection) and not (previousNode.type == OFFCURVE and currentNode.type == OFFCURVE):
-								previousPoint = previousNode.position
-								currentPoint = currentNode.position
-								currentAngle = self.angle(previousPoint, currentPoint)
-								currentDistance = distance(previousPoint, currentPoint)
-								pointSum = addPoints(previousPoint, currentPoint)
-								pointInTheMiddle = NSPoint(pointSum.x * 0.5 + offset, pointSum.y * 0.5)
-								self.drawTextAtPoint(
-									("%.1f @%.1f°" % (currentDistance, currentAngle)).replace(".0", ""),
-									pointInTheMiddle,
-									fontColor=green,
-									fontSize=10 + 2 * Glyphs.handleSize,
-								)
+		# length and angles of adjacent nodes
+		if showHandles:
+			for thisPath in layer.paths:
+				theseNodes = thisPath.nodes
+				thisNumberOfNodes = len(theseNodes)
+				for i in range(thisNumberOfNodes):
+					previousNode = theseNodes[(i - 1) % thisNumberOfNodes]
+					currentNode = theseNodes[1]
+					if (previousNode in currentSelection or currentNode in currentSelection) and not (previousNode.type == OFFCURVE and currentNode.type == OFFCURVE):
+						previousPoint = previousNode.position
+						currentPoint = currentNode.position
+						currentAngle = self.angle(previousPoint, currentPoint)
+						currentDistance = distance(previousPoint, currentPoint)
+						pointSum = addPoints(previousPoint, currentPoint)
+						pointInTheMiddle = NSPoint(pointSum.x * 0.5 + offset, pointSum.y * 0.5)
+						self.drawTextAtPoint(
+							("%.1f @%.1f°" % (currentDistance, currentAngle)).replace(".0", ""),
+							pointInTheMiddle,
+							fontColor=green,
+							fontSize=10 + 2 * Glyphs.handleSize,
+						)
 
 	@objc.python_method
 	def __file__(self):
